@@ -45,7 +45,8 @@ public class User implements Serializable {
     @NotNull(message = "Der Benutzername darf nicht leer sein.")
     private String username;
     private String name;
-    private String anschrift;
+    private String strasse;
+    private String hausnummer;
     private String postleitzahl;
     private String ort;
     private String telefon;
@@ -76,11 +77,22 @@ public class User implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public User() {
     }
+     public User(String username, String password) {
+         this.username = username;
+        this.password.password = password;
+     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String name, String strasse, String hausnummer, String postleitzahl, String ort, String telefon, String email) {
         this.username = username;
         this.password.password = password;
         this.passwordHash = this.hashPassword(password);
+        this.name=name;
+        this.strasse=strasse;
+        this.hausnummer=hausnummer;
+        this.postleitzahl=postleitzahl;
+        this.ort=ort;
+        this.telefon=telefon;
+        this.email=email;
     }
     //</editor-fold>
 
@@ -91,6 +103,70 @@ public class User implements Serializable {
 
     public void setUsername(String id) {
         this.username = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStrasse() {
+        return strasse;
+    }
+
+    public void setStrasse(String strasse) {
+        this.strasse = strasse;
+    }
+
+    public String getHausnummer() {
+        return hausnummer;
+    }
+
+    public void setHausnummer(String hausnummer) {
+        this.hausnummer = hausnummer;
+    }
+
+    public String getPostleitzahl() {
+        return postleitzahl;
+    }
+
+    public void setPostleitzahl(String postleitzahl) {
+        this.postleitzahl = postleitzahl;
+    }
+
+    public String getOrt() {
+        return ort;
+    }
+
+    public void setOrt(String ort) {
+        this.ort = ort;
+    }
+
+    public String getTelefon() {
+        return telefon;
+    }
+
+    public void setTelefon(String telefon) {
+        this.telefon = telefon;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public List<Task> getTasks() {
