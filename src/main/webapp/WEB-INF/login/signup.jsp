@@ -38,6 +38,7 @@
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                     <%-- Eingabefelder --%>
+                    <h1>Logindaten</h1>
                     <label for="signup_username">
                         Benutzername:
                         <span class="required">*</span>
@@ -62,8 +63,9 @@
                         <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
                     </div>
                     
+                    <h1>Anschrift</h1>
                      <label for="signup_name">
-                        Name:
+                        Vor- und Nachname:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
@@ -94,20 +96,21 @@
                         <input type="text" name="signup_postleitzahl" value="${signup_form.values["signup_postleitzahl"][0]}">
                     </div>
                     
-                    <label for="signup_telefon">
-                        Telefon:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="text" name="signup_telefon" value="${signup_form.values["signup_telefon"][0]}">
-                    </div>
-                    
                     <label for="signup_ort">
                         Ort:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
                         <input type="text" name="signup_ort" value="${signup_form.values["signup_ort"][0]}">
+                    </div>
+                    
+                    <h1>Kontaktdaten</h1>
+                    <label for="signup_telefon">
+                        Telefon:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="text" name="signup_telefon" value="${signup_form.values["signup_telefon"][0]}">
                     </div>
                     
                     <label for="signup_email">
