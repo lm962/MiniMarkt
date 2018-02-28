@@ -69,14 +69,16 @@ public class SignUpServlet extends HttpServlet {
                  
         
         // Eingaben prüfen
-        User user = new User(username, password1);
+        User user = new User(username, password1, name, strasse, hausnummer, postleitzahl, ort, telefon, email);
         List<String> errors = this.validationBean.validate(user);
         this.validationBean.validate(user.getPassword(), errors);
         
         if (password1 != null && password2 != null && !password1.equals(password2)) {
             errors.add("Die beiden Passwörter stimmen nicht überein.");
-        }
-        
+            }
+        if (name == null || strasse == null || hausnummer == null || postleitzahl == null || ort == null || telefon == null || email == null) {
+            errors.add("Bitte geben Sie alle Felder korrekt ein.");
+            }
         // Neuen Benutzer anlegen
         if (errors.isEmpty()) {
             try {
