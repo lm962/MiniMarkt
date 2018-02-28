@@ -42,14 +42,21 @@ public class UserBean {
      *
      * @param username
      * @param password
+     * @param name
+     * @param strasse
+     * @param hausnummer
+     * @param ort
+     * @param postleitzahl
+     * @param telefon
+     * @param email
      * @throws UserBean.UserAlreadyExistsException
      */
-    public void signup(String username, String password) throws UserAlreadyExistsException {
+    public void signup(String username, String password,  String name, String strasse, String hausnummer, String postleitzahl, String ort, String telefon, String email) throws UserAlreadyExistsException {
         if (em.find(User.class, username) != null) {
             throw new UserAlreadyExistsException("Der Benutzername $B ist bereits vergeben.".replace("$B", username));
         }
 
-        User user = new User(username, password);
+        User user = new User(username, password, name, strasse, hausnummer, postleitzahl, ort, telefon, email);
         user.addToGroup("minimarkt-app-user");
         em.persist(user);
     }
