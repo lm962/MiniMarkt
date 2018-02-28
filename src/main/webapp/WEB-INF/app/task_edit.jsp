@@ -17,10 +17,10 @@
     <jsp:attribute name="title">
         <c:choose>
             <c:when test="${edit}">
-                Aufgabe bearbeiten
+                Angebot bearbeiten
             </c:when>
             <c:otherwise>
-                Aufgabe anlegen
+                Angebot anlegen
             </c:otherwise>
         </c:choose>
     </jsp:attribute>
@@ -42,11 +42,6 @@
                 <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                 <%-- Eingabefelder --%>
-                <label for="task_owner">Eigentümer:</label>
-                <div class="side-by-side">
-                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
-                </div>
-
                 <label for="task_category">Kategorie:</label>
                 <div class="side-by-side">
                     <select name="task_category">
@@ -60,17 +55,8 @@
                     </select>
                 </div>
 
-                <label for="task_due_date">
-                    Fällig am:
-                    <span class="required">*</span>
-                </label>
-                <div class="side-by-side">
-                    <input type="text" name="task_due_date" value="${task_form.values["task_due_date"][0]}">
-                    <input type="text" name="task_due_time" value="${task_form.values["task_due_time"][0]}">
-                </div>
-
                 <label for="task_status">
-                    Status:
+                    Art des Angebots:
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side margin">
@@ -97,20 +83,46 @@
                 <div class="side-by-side">
                     <textarea name="task_long_text"><c:out value="${task_form.values['task_long_text'][0]}"/></textarea>
                 </div>
-
+                
+                <label for="price_status">      <!--todo: mit SourcePackage PriceStatus verbinden so dass das richtige angezeigt wird -->
+                    Preis:
+                </label>
+                <div class="side-by-side margin">
+                    <select name="task_status">
+                        <c:forEach items="${statuses}" var="status">
+                            <option value="${status}" ${price_form.values["price_status"][0] == status ? 'selected' : ''}>
+                                <c:out value="${status.label}"/>
+                            </option>
+                        </c:forEach>
+                    </select>
+                    <div class="side-by-side">
+                    <input type="pricenumber" name="price_number" value="${task_form.values["price_number"][0]}">
+                </div>
+                </div>
+                
                 <%-- Button zum Abschicken --%>
                 <div class="side-by-side">
                     <button class="icon-pencil" type="submit" name="action" value="save">
                         Sichern
                     </button>
-
-                    <c:if test="${edit}">
-                        <button class="icon-trash" type="submit" name="action" value="delete">
-                            Löschen
-                        </button>
-                    </c:if>
                 </div>
-            </div>
+            
+               
+           <label for="task_due_date">
+                    Angelegt am:
+                    <span class="required">*</span>
+                </label>
+                <div class="side-by-side">
+                    <input type="text" name="task_due_date" value="${task_form.values["task_due_date"][0]}">
+                    <input type="text" name="task_due_time" value="${task_form.values["task_due_time"][0]}">
+                </div>
+                
+                
+            <label for="task_owner">Anbieter:</label>   <!-- todo: Überarbeiten der Adresse -->
+                <div class="side-by-side">
+                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
+                </div>
+            </div>   
 
             <%-- Fehlermeldungen --%>
             <c:if test="${!empty task_form.errors}">
