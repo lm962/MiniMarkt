@@ -30,6 +30,10 @@
         <div class="menuitem">
             <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
         </div>
+        
+        <div class="menuitem">
+            <a href="<c:url value="/app/categories/"/>">Benutzer bearbeiten</a>         <!--Achtung: Logik dahinter noch machen"-->
+        </div>
     </jsp:attribute>
 
     <jsp:attribute name="content">
@@ -48,7 +52,7 @@
             </select>
 
             <select name="search_status">
-                <option value="">Alle Stati</option>
+                <option value="">Alle Angebotsarten</option>
 
                 <c:forEach items="${statuses}" var="status">
                     <option value="${status}" ${param.search_status == status ? 'selected' : ''}>
