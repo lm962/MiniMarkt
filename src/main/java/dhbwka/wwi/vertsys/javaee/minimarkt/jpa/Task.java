@@ -61,7 +61,7 @@ public class Task implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private TaskStatus status = TaskStatus.OPEN;
+    private TaskStatus status = TaskStatus.BIETE;
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public Task() {

@@ -13,7 +13,7 @@ package dhbwka.wwi.vertsys.javaee.minimarkt.jpa;
  * Statuswerte einer Aufgabe.
  */
 public enum TaskStatus {
-    OPEN, IN_PROGRESS, FINISHED, CANCELED, POSTPONED;
+    BIETE, SUCHE;
 
     /**
      * Bezeichnung ermitteln
@@ -22,16 +22,10 @@ public enum TaskStatus {
      */
     public String getLabel() {
         switch (this) {
-            case OPEN:
-                return "Offen";
-            case IN_PROGRESS:
-                return "In Bearbeitung";
-            case FINISHED:
-                return "Erledigt";
-            case CANCELED:
-                return "Abgesagt";
-            case POSTPONED:
-                return "Zurückgestellt";
+            case BIETE:
+                return "Biete";
+            case SUCHE:
+                return "Suche";
             default:
                 return this.toString();
         }
