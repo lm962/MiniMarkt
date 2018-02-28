@@ -16,6 +16,7 @@ Creative Commons Namensnennung 4.0 International Lizenz.
 html, body {
     padding: 0;
     margin: 0;
+    color: #ffffff;
 }
 
 html {
@@ -81,7 +82,7 @@ header, main {
 
 /* Farben für Links */
 a, a:visited {
-    color: rgb(193, 33, 33);
+    color:#ff6600;
     text-decoration: none;
 }
 
