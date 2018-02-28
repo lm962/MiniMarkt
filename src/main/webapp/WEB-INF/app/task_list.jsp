@@ -66,11 +66,11 @@
             </button>
         </form>
 
-        <%-- Gefundene Aufgaben --%>
+        <%-- Gefundene Anzeigen --%>
         <c:choose>
             <c:when test="${empty tasks}">
                 <p>
-                    Es wurden keine Aufgaben gefunden. 🐈
+                    Es wurden keine Anzeigen gefunden. 🐈
                 </p>
             </c:when>
             <c:otherwise>
@@ -81,9 +81,11 @@
                         <tr>
                             <th>Bezeichnung</th>
                             <th>Kategorie</th>
-                            <th>Eigentümer</th>
-                            <th>Status</th>
-                            <th>Fällig am</th>
+                            <th>Benutzer</th>
+                            <th>Angebotstyp</th>
+                            <th>Preis</th>
+                            <th>Preistyp</th>
+                            <th>Datum</th>
                         </tr>
                     </thead>
                     <c:forEach items="${tasks}" var="task">
@@ -102,9 +104,14 @@
                             <td>
                                 <c:out value="${task.status.label}"/>
                             </td>
+                            <td>    <!--todo: Preis-->
+                                
+                            </td>
+                            <td>    <!--todo: Preistyp -->
+                                
+                            </td>
                             <td>
                                 <c:out value="${utils.formatDate(task.dueDate)}"/>
-                                <c:out value="${utils.formatTime(task.dueTime)}"/>
                             </td>
                         </tr>
                     </c:forEach>
