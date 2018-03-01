@@ -84,21 +84,32 @@
                     <textarea name="task_long_text"><c:out value="${task_form.values['task_long_text'][0]}"/></textarea>
                 </div>
                 
-                <label for="price_status">      <!--todo: mit SourcePackage PriceStatus verbinden so dass das richtige angezeigt wird -->
+                
+                
+                
+                
+                
+               <label for="price_status">
                     Preis:
+                    <span class="required">*</span>
                 </label>
                 <div class="side-by-side margin">
-                    <select name="task_status">
-                        <c:forEach items="${statuses}" var="status">
-                            <option value="${status}" ${price_form.values["price_status"][0] == status ? 'selected' : ''}>
-                                <c:out value="${status.label}"/>
+                    <select name="price_status">
+                        <c:forEach items="${types}" var="typ">
+                            <option value="${typ}" ${task_form.values["price_status"][0] == typ ? 'selected' : ''}>
+                                <c:out value="${typ.label}"/>
                             </option>
                         </c:forEach>
                     </select>
-                    <div class="side-by-side">
-                    <input type="pricenumber" name="price_number" value="${task_form.values["price_number"][0]}">
+     
+                    <!--<div class="side-by-side">
+                        <input type="text" name="price_number" value="${task_form.values["price_number"][0]}">
+                    </div>-->
                 </div>
-                </div>
+                
+                
+                
+                
                 
                 <%-- Button zum Abschicken --%>
                 <div class="side-by-side">
@@ -109,12 +120,12 @@
             
                
            <label for="task_due_date">
-                    Angelegt am:
+                    Angelegt:
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <input type="text" name="task_due_date" value="${task_form.values["task_due_date"][0]}">
-                    <input type="text" name="task_due_time" value="${task_form.values["task_due_time"][0]}">
+                    <input type="text" name="task_due_date" value="${task_form.values["task_due_date"][0]}" readonly="readonly">
+                    <input type="text" name="task_due_time" value="${task_form.values["task_due_time"][0]}" readonly="readonly">
                 </div>
                 
                 

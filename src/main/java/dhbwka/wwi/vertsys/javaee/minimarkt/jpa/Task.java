@@ -59,6 +59,14 @@ public class Task implements Serializable {
     @NotNull(message = "Die Uhrzeit darf nicht leer sein.")
     private Time dueTime;
 
+    //@Size (min = 1, message = "Der Preis muss mindestens 1€ betragen.")
+    //@NotNull (message = "Der Preis darf nicht leer sein.")
+    private String preis;
+    
+    @NotNull (message = "Es muss ein Typ ausgewählt werden.")
+    private PriceStatus typ;
+    
+    
     @Enumerated(EnumType.STRING)
     @NotNull
     private TaskStatus status = TaskStatus.BIETE;
@@ -67,13 +75,14 @@ public class Task implements Serializable {
     public Task() {
     }
 
-    public Task(User owner, Category category, String shortText, String longText, Date dueDate, Time dueTime) {
+    public Task(User owner, Category category, String shortText, String longText, Date dueDate, Time dueTime, String preis) {
         this.owner = owner;
         this.category = category;
         this.shortText = shortText;
         this.longText = longText;
         this.dueDate = dueDate;
         this.dueTime = dueTime;
+        this.preis = preis;
     }
     //</editor-fold>
 
@@ -140,6 +149,20 @@ public class Task implements Serializable {
 
     public void setStatus(TaskStatus status) {
         this.status = status;
+    }
+    
+    public String getPreis() {
+        return preis;
+    }
+    public void setPreis(String preis) {
+        this.preis = preis;
+    }
+    
+    public PriceStatus getTyp() {
+        return typ;
+    }
+    public void setTyp(PriceStatus typ) {
+        this.typ = typ;
     }
     //</editor-fold>
 

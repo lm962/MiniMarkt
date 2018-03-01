@@ -13,6 +13,7 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.PriceStatus;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TaskStatus;
 import java.io.IOException;
@@ -55,6 +56,7 @@ public class TaskEditServlet extends HttpServlet {
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
         request.setAttribute("statuses", TaskStatus.values());
+        request.setAttribute("types", PriceStatus.values());
 
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
@@ -115,6 +117,7 @@ public class TaskEditServlet extends HttpServlet {
         String taskDueDate = request.getParameter("task_due_date");
         String taskDueTime = request.getParameter("task_due_time");
         String taskStatus = request.getParameter("task_status");
+        String priceStatus = request.getParameter("price_status");
         String taskShortText = request.getParameter("task_short_text");
         String taskLongText = request.getParameter("task_long_text");
 
@@ -145,6 +148,12 @@ public class TaskEditServlet extends HttpServlet {
 
         try {
             task.setStatus(TaskStatus.valueOf(taskStatus));
+        } catch (IllegalArgumentException ex) {
+            errors.add("Der ausgewählte Status ist nicht vorhanden.");
+        }
+        
+        try {
+            task.setTyp(PriceStatus.valueOf(priceStatus));
         } catch (IllegalArgumentException ex) {
             errors.add("Der ausgewählte Status ist nicht vorhanden.");
         }
@@ -274,6 +283,17 @@ public class TaskEditServlet extends HttpServlet {
 
         values.put("task_long_text", new String[]{
             task.getLongText()
+        });
+        
+        if (task.getCategory() != null) {
+            values.put("task_typ", new String[]{
+            task.getTyp().toString()
+        });
+        }
+        
+        
+        values.put("task_preis", new String[]{
+            task.getPreis()
         });
 
         FormValues formValues = new FormValues();

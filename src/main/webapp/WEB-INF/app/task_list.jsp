@@ -105,10 +105,10 @@
                                 <c:out value="${task.status.label}"/>
                             </td>
                             <td>    <!--todo: Preis-->
-                                
+                                <c:out value="${task.preis.label}"/>
                             </td>
                             <td>    <!--todo: Preistyp -->
-                                
+                                <c:out value="${task.typ.label}"/>
                             </td>
                             <td>
                                 <c:out value="${utils.formatDate(task.dueDate)}"/>
