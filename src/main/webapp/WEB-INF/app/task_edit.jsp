@@ -133,6 +133,9 @@
                 <div class="side-by-side">
                     <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
                 </div>
+                <div class="side-by-side">
+                    <input type="text" name="task_address" value="${task_form.values["task_address"][0]}" readonly="readonly">
+                </div>
             </div>   
 
             <%-- Fehlermeldungen --%>

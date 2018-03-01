@@ -122,6 +122,7 @@ public class TaskEditServlet extends HttpServlet {
         
         String priceStatus = request.getParameter("price_status");
         String taskPreis = request.getParameter("task_preis");
+        String taskAdress = request.getParameter("task_address");
 
         Task task = this.getRequestedTask(request);
 
@@ -154,6 +155,7 @@ public class TaskEditServlet extends HttpServlet {
             errors.add("Der ausgewählte Status ist nicht vorhanden.");
         }
         task.setPreis(taskPreis);
+        task.setAddress(taskAddress);
         
         try {
             task.setTyp(PriceStatus.valueOf(priceStatus));
