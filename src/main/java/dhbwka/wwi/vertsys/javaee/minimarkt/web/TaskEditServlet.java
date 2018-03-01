@@ -117,9 +117,11 @@ public class TaskEditServlet extends HttpServlet {
         String taskDueDate = request.getParameter("task_due_date");
         String taskDueTime = request.getParameter("task_due_time");
         String taskStatus = request.getParameter("task_status");
-        String priceStatus = request.getParameter("price_status");
         String taskShortText = request.getParameter("task_short_text");
         String taskLongText = request.getParameter("task_long_text");
+        
+        String priceStatus = request.getParameter("price_status");
+        String taskPreis = request.getParameter("task_preis");
 
         Task task = this.getRequestedTask(request);
 
@@ -151,6 +153,7 @@ public class TaskEditServlet extends HttpServlet {
         } catch (IllegalArgumentException ex) {
             errors.add("Der ausgewählte Status ist nicht vorhanden.");
         }
+        task.setPreis(taskPreis);
         
         try {
             task.setTyp(PriceStatus.valueOf(priceStatus));
@@ -285,10 +288,10 @@ public class TaskEditServlet extends HttpServlet {
             task.getLongText()
         });
         
-        if (task.getCategory() != null) {
+        if (task.getTyp() != null) {
             values.put("task_typ", new String[]{
-            task.getTyp().toString()
-        });
+                task.getTyp().toString()
+            });
         }
         
         

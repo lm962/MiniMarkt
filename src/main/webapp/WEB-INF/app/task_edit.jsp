@@ -102,9 +102,9 @@
                         </c:forEach>
                     </select>
      
-                    <!--<div class="side-by-side">
-                        <input type="text" name="price_number" value="${task_form.values["price_number"][0]}">
-                    </div>-->
+                    <div class="side-by-side">
+                        <input type="text" name="task_preis" value="${task_form.values["task_preis"][0]}">
+                    </div>
                 </div>
                 
                 

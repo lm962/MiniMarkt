@@ -56,7 +56,7 @@
 
                 <c:forEach items="${statuses}" var="status">
                     <option value="${status}" ${param.search_status == status ? 'selected' : ''}>
-                        <c:out value="${status.label}"/>
+                        <c:out value="${status}"/>
                     </option>
                 </c:forEach>
             </select>
@@ -102,13 +102,13 @@
                                 <c:out value="${task.owner.username}"/>
                             </td>
                             <td>
-                                <c:out value="${task.status.label}"/>
+                                <c:out value="${task.status}"/>
                             </td>
                             <td>    <!--todo: Preis-->
-                                <c:out value="${task.preis.label}"/>
+                                <c:out value="${task.preis}"/>
                             </td>
                             <td>    <!--todo: Preistyp -->
-                                <c:out value="${task.typ.label}"/>
+                                <c:out value="${task.typ}"/>
                             </td>
                             <td>
                                 <c:out value="${utils.formatDate(task.dueDate)}"/>

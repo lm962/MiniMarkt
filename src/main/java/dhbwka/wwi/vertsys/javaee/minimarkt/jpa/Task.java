@@ -59,8 +59,8 @@ public class Task implements Serializable {
     @NotNull(message = "Die Uhrzeit darf nicht leer sein.")
     private Time dueTime;
 
-    //@Size (min = 1, message = "Der Preis muss mindestens 1€ betragen.")
-    //@NotNull (message = "Der Preis darf nicht leer sein.")
+    @Size (min = 1, message = "Der Preis muss mindestens 1€ betragen.")
+    @NotNull (message = "Der Preis darf nicht leer sein.")
     private String preis;
     
     @NotNull (message = "Es muss ein Typ ausgewählt werden.")
