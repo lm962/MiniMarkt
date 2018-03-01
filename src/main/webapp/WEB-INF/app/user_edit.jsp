@@ -37,8 +37,20 @@
                     <%-- CSRF-Token --%>
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
                     
-                    <h1>Anschrift</h1>
+                    <%--Eingabefelder--%>
+                    <h1>Zugangsdaten</h1>
                      <label for="username">
+                        Benutzername und Passwort:
+                        <span class="required">*</span>
+                    </label>
+                    <div class="side-by-side">
+                        <input type="text" name="user_username" value="${user_form.values["user_username"][0]}">   
+                    <div class="side-by-side">
+                        <input type="text" name="user_password" value="${user_form.values["user_passwordS"][0]}">
+                    </div>
+                    </div>
+                    <h1>Anschrift</h1>
+                     <label for="user_name">
                         Vor- und Nachname:
                         <span class="required">*</span>
                     </label>
