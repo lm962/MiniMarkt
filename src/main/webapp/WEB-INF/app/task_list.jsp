@@ -32,7 +32,7 @@
         </div>
         
         <div class="menuitem">
-            <a href="<c:url value="/app/categories/"/>">Benutzer bearbeiten</a>         <!--Achtung: Logik dahinter noch machen"-->
+            <a href="<c:url value="/app/user"/>">Benutzer bearbeiten</a>         <!--Achtung: Logik dahinter noch machen"-->
         </div>
     </jsp:attribute>
 

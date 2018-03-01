@@ -18,6 +18,7 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -82,13 +83,15 @@ public class UserServlet extends HttpServlet {
      @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // Alle vorhandenen Kategorien ermitteln
-        request.setAttribute("user", userBean.getCurrentUser());
+        
+        HttpSession session = request.getSession();
+        
+        User user = this.userBean.getCurrentUser();
+        if(session.getAttribute("user_form")==null) {
         // Anfrage an dazugerhörige JSP weiterleiten
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login/signup.jsp");
-        dispatcher.forward(request, response);
-
+        request.getRequestDispatcher("/WEB-INF/app/user_edit.jsp").forward(request, response);
+        session.removeAttribute("user_form");
+    }
     }
 
     /**
@@ -99,33 +102,61 @@ public class UserServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+   @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // Angeforderte Aktion ausführen
-        request.setCharacterEncoding("utf-8");
         
-        String action = request.getParameter("action");
-
-        if (action == null) {
-            action = "";
+           // Formulareingaben auslesen
+        request.setCharacterEncoding("utf-8");
+          
+        String username = request.getParameter("user_username");
+        String password1 = request.getParameter("user_password1");
+        String name = request.getParameter("user_name");
+        String strasse = request.getParameter("user_strasse");
+        String hausnummer = request.getParameter("user_hausnummer");
+        String postleitzahl = request.getParameter("user_postleitzahl");
+        String ort = request.getParameter("user_ort");
+        String telefon = request.getParameter("user_telefon");                            
+        String email = request.getParameter("user_email");
+        
+        // Eingaben prüfen
+        User userNeu = new User(username, password1, name, strasse, hausnummer, postleitzahl, ort, telefon, email);
+        User userAlt = this.userBean.getCurrentUser();
+        List<String> errors = this.validationBean.validate(userNeu);
+        this.validationBean.validate(userNeu.getPassword(), errors);
+      
+         if (name == null || name.isEmpty() || strasse == null || strasse.isEmpty() || hausnummer == null || hausnummer.isEmpty()  || postleitzahl == null || postleitzahl.isEmpty() || ort == null || ort.isEmpty() || telefon == null || telefon.isEmpty() || email == null || email.isEmpty()) {
+            errors.add("Bitte geben Sie alle Felder korrekt ein.");
+         }
+         
+          // Weiter zur nächsten Seite
+        if (errors.isEmpty()) {
+            // Keine Fehler: Startseite aufrufen
+            request.login(username, password1);
+            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+        } else {
+            // Fehler: Formuler erneut anzeigen
+            FormValues formValues = new FormValues();
+            formValues.setValues(request.getParameterMap());
+            formValues.setErrors(errors);
+            
+            HttpSession session = request.getSession();
+            session.setAttribute("user_form", formValues);
+            
+            response.sendRedirect(request.getRequestURI());
         }
+        userAlt.setStrasse(username);
+        userAlt.setHausnummer(hausnummer);
+        userAlt.setPostleitzahl(postleitzahl);
+        userAlt.setOrt(ort);
+        userAlt.setTelefon(telefon);
+        userAlt.setEmail(email);
+        userAlt.setUsername(username);
+        
+        
+        
+        
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+   
     
-    public void update (User user) {
-        userBean.update(user);
-    }
-
 }
