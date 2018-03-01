@@ -9,18 +9,17 @@
  */
 package dhbwka.wwi.vertsys.javaee.minimarkt.web;
 
-import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
-import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Category;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -87,11 +86,16 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         
         User user = this.userBean.getCurrentUser();
+        
         if(session.getAttribute("user_form")==null) {
         // Anfrage an dazugerhörige JSP weiterleiten
+        request.setAttribute("user_form", this.createUserForm(user));
+        
+        }
         request.getRequestDispatcher("/WEB-INF/app/user_edit.jsp").forward(request, response);
         session.removeAttribute("user_form");
-    }
+        
+    
     }
 
     /**
@@ -121,18 +125,24 @@ public class UserServlet extends HttpServlet {
         
         // Eingaben prüfen
         User userNeu = new User(username, password1, name, strasse, hausnummer, postleitzahl, ort, telefon, email);
-        User userAlt = this.userBean.getCurrentUser();
+        
         List<String> errors = this.validationBean.validate(userNeu);
         this.validationBean.validate(userNeu.getPassword(), errors);
       
          if (name == null || name.isEmpty() || strasse == null || strasse.isEmpty() || hausnummer == null || hausnummer.isEmpty()  || postleitzahl == null || postleitzahl.isEmpty() || ort == null || ort.isEmpty() || telefon == null || telefon.isEmpty() || email == null || email.isEmpty()) {
             errors.add("Bitte geben Sie alle Felder korrekt ein.");
          }
-         
+         User userAlt = this.userBean.getCurrentUser();
           // Weiter zur nächsten Seite
+        userAlt.setStrasse(strasse);
+        userAlt.setHausnummer(hausnummer);
+        userAlt.setPostleitzahl(postleitzahl);
+        userAlt.setOrt(ort);
+        userAlt.setTelefon(telefon);
+        userAlt.setEmail(email);
+        
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            request.login(username, password1);
             response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
         } else {
             // Fehler: Formuler erneut anzeigen
@@ -145,17 +155,44 @@ public class UserServlet extends HttpServlet {
             
             response.sendRedirect(request.getRequestURI());
         }
-        userAlt.setStrasse(username);
-        userAlt.setHausnummer(hausnummer);
-        userAlt.setPostleitzahl(postleitzahl);
-        userAlt.setOrt(ort);
-        userAlt.setTelefon(telefon);
-        userAlt.setEmail(email);
-        userAlt.setUsername(username);
         
         
         
+    }
+     private FormValues createUserForm(User user) {
+        Map<String, String[]> values = new HashMap<>();
+
+        values.put("user_Name", new String[]{
+            user.getName()
+        });
         
+        values.put("user_Strasse", new String[]{
+            user.getStrasse()
+        });
+        
+        values.put("user_Hausnummer", new String[]{
+            user.getHausnummer()
+        });
+        
+        values.put("user_Postleitzahl", new String[]{
+            user.getPostleitzahl()
+        });
+        
+        values.put("user_Ort", new String[]{
+            user.getOrt()
+        });
+        
+        values.put("user_Telefon", new String[]{
+            user.getTelefon()
+        });
+        
+        values.put("user_Email", new String[]{
+            user.getEmail()
+        });
+
+        FormValues formValues = new FormValues();
+        formValues.setValues(values);
+        return formValues;
     }
    
     
