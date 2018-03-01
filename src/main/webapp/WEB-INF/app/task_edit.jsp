@@ -131,10 +131,15 @@
                 
             <label for="task_owner">Anbieter:</label>   <!-- todo: Überarbeiten der Adresse -->
                 <div class="side-by-side">
-                    <input type="text" name="task_owner" value="${task_form.values["task_owner"][0]}" readonly="readonly">
+                    <input type="text" name="task_name" value="${task_form.values["task_name"][0]}" readonly="readonly">
                 </div>
                 <div class="side-by-side">
-                    <input type="text" name="task_address" value="${task_form.values["task_address"][0]}" readonly="readonly">
+                    <input type="text" name="task_strasse" value="${task_form.values["task_strasse"][0]}" readonly="readonly">
+                    <input type="text" name="task_hausnummer" value="${task_form.values["task_hausnummer"][0]}" readonly="readonly">
+                </div>
+                <div class="side-by-side">
+                    <input type="text" name="task_postleitzahl" value="${task_form.values["task_postleitzahl"][0]}" readonly="readonly">
+                    <input type="text" name="task_ort" value="${task_form.values["task_ort"][0]}" readonly="readonly">
                 </div>
             </div>   
 

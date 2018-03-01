@@ -122,7 +122,6 @@ public class TaskEditServlet extends HttpServlet {
         
         String priceStatus = request.getParameter("price_status");
         String taskPreis = request.getParameter("task_preis");
-        String taskAdress = request.getParameter("task_address");
 
         Task task = this.getRequestedTask(request);
 
@@ -155,7 +154,6 @@ public class TaskEditServlet extends HttpServlet {
             errors.add("Der ausgewählte Status ist nicht vorhanden.");
         }
         task.setPreis(taskPreis);
-        task.setAddress(taskAddress);
         
         try {
             task.setTyp(PriceStatus.valueOf(priceStatus));
@@ -262,6 +260,22 @@ public class TaskEditServlet extends HttpServlet {
 
         values.put("task_owner", new String[]{
             task.getOwner().getUsername()
+        });
+        
+        values.put("task_name", new String[]{
+            task.getOwner().getName()
+        });
+        values.put("task_strasse", new String[]{
+            task.getOwner().getStrasse()
+        });
+        values.put("task_hausnummer", new String[]{
+            task.getOwner().getHausnummer()
+        });
+        values.put("task_postleitzahl", new String[]{
+            task.getOwner().getPostleitzahl()
+        });
+        values.put("task_ort", new String[]{
+            task.getOwner().getOrt()
         });
 
         if (task.getCategory() != null) {
