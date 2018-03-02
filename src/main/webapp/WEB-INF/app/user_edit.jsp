@@ -17,7 +17,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        User bearbeiten
+        Benutzer bearbeiten
     </jsp:attribute>
 
    <jsp:attribute name="head">
@@ -39,16 +39,7 @@
                     
                     <%--Eingabefelder--%>
                     <h1>Zugangsdaten</h1>
-                     <label for="username">
-                        Benutzername und Passwort:
-                        <span class="required">*</span>
-                    </label>
-                    <div class="side-by-side">
-                        <input type="text" name="user_username" value="${user_form.values["user_username"][0]}">   
-                    <div class="side-by-side">
-                        <input type="text" name="user_password" value="${user_form.values["user_passwordS"][0]}">
-                    </div>
-                    </div>
+                     
                     <h1>Anschrift</h1>
                      <label for="user_name">
                         Vor- und Nachname:
@@ -110,7 +101,7 @@
                    
                     <%-- Button zum Abschicken --%>
                     <div class="side-by-side">
-                        <button class="icon-pencil" type="submit">
+                        <button class="icon-pencil" type="submit" name="action" value="save">
                             Aktualisieren
                         </button>
                     </div>

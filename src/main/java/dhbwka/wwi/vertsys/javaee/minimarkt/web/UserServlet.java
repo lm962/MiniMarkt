@@ -16,6 +16,7 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,41 +45,7 @@ public class UserServlet extends HttpServlet {
     @EJB
     ValidationBean validationBean;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UserServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UserServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+ 
      @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -93,28 +60,35 @@ public class UserServlet extends HttpServlet {
         
         }
         request.getRequestDispatcher("/WEB-INF/app/user_edit.jsp").forward(request, response);
+       
         session.removeAttribute("user_form");
         
     
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
            // Formulareingaben auslesen
         request.setCharacterEncoding("utf-8");
-          
-        String username = request.getParameter("user_username");
-        String password1 = request.getParameter("user_password1");
+        
+        String action = request.getParameter("action");
+        if(action==null) {
+            action = "";
+        }
+        switch (action) {
+            case "save":
+                this.saveUser(request, response);
+                break;
+        }   
+    }
+    
+    private void saveUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        List<String> errors = new ArrayList<>();
+        
         String name = request.getParameter("user_name");
         String strasse = request.getParameter("user_strasse");
         String hausnummer = request.getParameter("user_hausnummer");
@@ -124,23 +98,20 @@ public class UserServlet extends HttpServlet {
         String email = request.getParameter("user_email");
         
         // Eingaben prüfen
-        User userNeu = new User(username, password1, name, strasse, hausnummer, postleitzahl, ort, telefon, email);
-        
-        List<String> errors = this.validationBean.validate(userNeu);
-        this.validationBean.validate(userNeu.getPassword(), errors);
+        User user = this.userBean.getCurrentUser();
       
-         if (name == null || name.isEmpty() || strasse == null || strasse.isEmpty() || hausnummer == null || hausnummer.isEmpty()  || postleitzahl == null || postleitzahl.isEmpty() || ort == null || ort.isEmpty() || telefon == null || telefon.isEmpty() || email == null || email.isEmpty()) {
-            errors.add("Bitte geben Sie alle Felder korrekt ein.");
-         }
-         User userAlt = this.userBean.getCurrentUser();
-          // Weiter zur nächsten Seite
-        userAlt.setStrasse(strasse);
-        userAlt.setHausnummer(hausnummer);
-        userAlt.setPostleitzahl(postleitzahl);
-        userAlt.setOrt(ort);
-        userAlt.setTelefon(telefon);
-        userAlt.setEmail(email);
-        
+            
+            user.setName(name);
+            user.setStrasse(strasse);
+            user.setHausnummer(hausnummer);
+            user.setPostleitzahl(postleitzahl);
+            user.setOrt(ort);
+            user.setTelefon(telefon);
+            user.setEmail(email);
+            
+            this.validationBean.validate(user, errors);
+            
+
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
             response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
@@ -154,10 +125,7 @@ public class UserServlet extends HttpServlet {
             session.setAttribute("user_form", formValues);
             
             response.sendRedirect(request.getRequestURI());
-        }
-        
-        
-        
+        } 
     }
      private FormValues createUserForm(User user) {
         Map<String, String[]> values = new HashMap<>();
