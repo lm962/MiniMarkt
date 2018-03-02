@@ -9,6 +9,7 @@
  */
 package dhbwka.wwi.vertsys.javaee.minimarkt.web;
 
+import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.CategoryBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.TaskBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.UserBean;
@@ -16,6 +17,7 @@ import dhbwka.wwi.vertsys.javaee.minimarkt.ejb.ValidationBean;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.PriceStatus;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.Task;
 import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.TaskStatus;
+import dhbwka.wwi.vertsys.javaee.minimarkt.jpa.User;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -48,11 +50,16 @@ public class TaskEditServlet extends HttpServlet {
 
     @EJB
     ValidationBean validationBean;
-
+    
+    
+        
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        User user = userBean.getCurrentUser();
+    User anbieter = userBean.getCurrentUser();
+        
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
         request.setAttribute("statuses", TaskStatus.values());
@@ -62,6 +69,7 @@ public class TaskEditServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         Task task = this.getRequestedTask(request);
+        anbieter.username = task.getOwner().getUsername();
         request.setAttribute("edit", task.getId() != 0);
                                 
         if (session.getAttribute("task_form") == null) {
@@ -71,8 +79,11 @@ public class TaskEditServlet extends HttpServlet {
         }
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_edit.jsp").forward(request, response);
-
+        if(anbieter.username.equals(user.username)) {
+            request.getRequestDispatcher("/WEB-INF/app/task_edit.jsp").forward(request, response);
+        } else {
+             request.getRequestDispatcher("/WEB-INF/app/task_read.jsp").forward(request, response);
+        }
         session.removeAttribute("task_form");
     }
 
@@ -90,12 +101,13 @@ public class TaskEditServlet extends HttpServlet {
         }
 
         switch (action) {
+            
             case "save":
-                this.saveTask(request, response);
-                break;
+               this.saveTask(request, response);               
+               break;
             case "delete":
-                this.deleteTask(request, response);
-                break;
+               this.deleteTask(request, response);
+               break;
         }
     }
 
@@ -318,6 +330,6 @@ public class TaskEditServlet extends HttpServlet {
         FormValues formValues = new FormValues();
         formValues.setValues(values);
         return formValues;
-    }
+    }    
 
 }

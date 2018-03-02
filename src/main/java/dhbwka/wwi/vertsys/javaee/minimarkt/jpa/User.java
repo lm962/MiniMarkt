@@ -44,13 +44,15 @@ public class User implements Serializable {
     @Column(name = "USERNAME", length = 64)
     @Size(min = 5, max = 64, message = "Der Benutzername muss zwischen fünf und 64 Zeichen lang sein.")
     @NotNull(message = "Der Benutzername darf nicht leer sein.")
-    private String username;
+    public String username;
     private String name;
     private String strasse;
     private String hausnummer;
     private String postleitzahl;
     private String ort;
     private String telefon;
+    
+  //  @Pattern(regexp = "\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b", message = "Die Email ist nicht valide")
     private String email;
     
     public class Password {
